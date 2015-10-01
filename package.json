@@ -1,0 +1,14 @@
+{
+  "name": "merge-select",
+  "version": "1.0.0",
+  "description": "merge select and multiselect to one select",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "apkawa <apkawa@gmail.com>",
+  "license": "WTFPL",
+  "devDependencies": {
+    "gulp": "^3.9.0"
+  }
+}

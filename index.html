@@ -7,50 +7,93 @@
     <link rel="stylesheet" href="dist/mergeSelect.css"/>
     <script src="src/mergeSelect.js"></script>
 
-    <script>
-        $(function() {
-            $('#mergeSelectTest').mergeSelect({
-                selects: $('.test, .test2')
-            });
-        })
-
-    </script>
 
 </head>
 <body>
-    <div>
-        <div id="mergeSelectTest">
+<script>
+    $(function () {
+        $('#mergeSelectTest').mergeSelect({
+            selects: $('.test, .test2')
+        });
+    })
 
-        </div>
-        <select class="test" multiple="multiple">
-            <optgroup label="Group A">
-                <option value="1">Option 1</option>
-                <option value="2" selected>Option 2</option>
-                <option value="3">Option 3</option>
-                <option value="4">Option 4</option>
-                <option value="5">Option 5</option>
-            </optgroup>
-            <optgroup label="Group B">
-                <option value="6" selected>Option 6</option>
-                <option value="7">Option 7</option>
-                <option value="8">Option 8</option>
-            </optgroup>
-        </select>
-        <select class="test2" multiple="multiple">
-            <optgroup label="Group C">
-                <option value="1">Option 1</option>
-                <option value="2" selected>Option 2</option>
-                <option value="3">Option 3</option>
-                <option value="4">Option 4</option>
-                <option value="5">Option 5</option>
-            </optgroup>
-            <optgroup label="Group D">
-                <option value="6" selected>Option 6</option>
-                <option value="7">Option 7</option>
-                <option value="8">Option 8</option>
-            </optgroup>
-        </select>
+</script>
+<div>
+    <select class="test" data-label="Test 1">
+        <optgroup label="Group A">
+            <option value="1">Option 1</option>
+            <option value="2" selected>Option 2</option>
+            <option value="3">Option 3</option>
+            <option value="4">Option 4</option>
+            <option value="5">Option 5</option>
+        </optgroup>
+        <optgroup label="Group B">
+            <option value="6" selected>Option 6</option>
+            <option value="7">Option 7</option>
+            <option value="8">Option 8</option>
+        </optgroup>
+    </select>
+    <select class="test2" data-label="Test 2">
+        <optgroup label="Group C">
+            <option value="1">Option 1</option>
+            <option value="2" selected>Option 2</option>
+            <option value="3">Option 3</option>
+            <option value="4">Option 4</option>
+            <option value="5">Option 5</option>
+        </optgroup>
+        <optgroup label="Group D">
+            <option value="6" selected>Option 6</option>
+            <option value="7">Option 7</option>
+            <option value="8">Option 8</option>
+        </optgroup>
+    </select>
+
+    <div id="mergeSelectTest">
+
     </div>
+</div>
+<script>
+    $(function () {
+        $('#mergeSelectTestMultiple').mergeSelect({
+            selects: $('#multiple select')
+        });
+    })
+
+</script>
+<div id="multiple">
+    <select data-label="Test 1" multiple>
+        <optgroup label="Group A">
+            <option value="1">Option 1</option>
+            <option value="2" selected>Option 2</option>
+            <option value="3">Option 3</option>
+            <option value="4">Option 4</option>
+            <option value="5">Option 5</option>
+        </optgroup>
+        <optgroup label="Group B">
+            <option value="6" selected>Option 6</option>
+            <option value="7">Option 7</option>
+            <option value="8">Option 8</option>
+        </optgroup>
+    </select>
+    <select data-label="Test 2" multiple>
+        <optgroup label="Group C">
+            <option value="1">Option 1</option>
+            <option value="2" selected>Option 2</option>
+            <option value="3">Option 3</option>
+            <option value="4">Option 4</option>
+            <option value="5">Option 5</option>
+        </optgroup>
+        <optgroup label="Group D">
+            <option value="6" selected>Option 6</option>
+            <option value="7">Option 7</option>
+            <option value="8">Option 8</option>
+        </optgroup>
+    </select>
+
+    <div id="mergeSelectTestMultiple">
+
+    </div>
+</div>
 
 </body>
 </html>

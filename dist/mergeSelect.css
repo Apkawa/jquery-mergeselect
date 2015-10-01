@@ -8,11 +8,11 @@
 .mergeSelect .wrap .option:hover {
   background-color: #f5f5f5;
 }
-.mergeSelect .wrap.multiple .option {
+.mergeSelect .wrap .option {
   position: relative;
   padding-left: 30px;
 }
-.mergeSelect .wrap.multiple .checkbox {
+.mergeSelect .wrap .checkbox {
   position: absolute;
   display: block;
   width: 30px;
@@ -20,7 +20,7 @@
   left: 0;
   bottom: 0;
 }
-.mergeSelect .wrap.multiple .option .checkbox i {
+.mergeSelect .wrap .option .checkbox i {
   position: absolute;
   margin: auto;
   left: 0;
@@ -33,7 +33,7 @@
   border-radius: 2px;
   background-color: #fff;
 }
-.mergeSelect .wrap.multiple .option.selected .checkbox i {
+.mergeSelect .wrap .option.selected .checkbox i {
   background-color: #11a911;
   border-color: transparent;
   background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAGCAYAAAD+Bd/7AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNXG14zYAAABMSURBVAiZfc0xDkAAFIPhd2Kr1WRjcAExuIgzGUTIZ/AkImjSofnbNBAfHvzAHjOKNzhiQ42IDFXCDivaaxAJd0xYshT3QqBxqnxeHvhunpu23xnmAAAAAElFTkSuQmCC');
@@ -84,14 +84,19 @@
   padding: 2px 4px;
   border: 0;
 }
+.mergeSelect .optgroup .label {
+  font-weight: bold;
+}
 .mergeSelect .option,
 .mergeSelect .search,
-.mergeSelect .optgroup-label {
+.mergeSelect .optgroup-label,
+.mergeSelect .optgroup .label {
   padding: 6px 8px;
   border-bottom: 1px solid #eee;
   cursor: default;
 }
-.mergeSelect .option {
+.mergeSelect .option,
+.mergeSelect .optgroup .label {
   cursor: pointer;
 }
 .mergeSelect .option.hl {

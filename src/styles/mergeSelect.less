@@ -12,7 +12,7 @@
     }
   }
 
-  .wrap.multiple {
+  .wrap {
 
     .option {
       position: relative;
@@ -99,6 +99,13 @@
     width: 100%;
     padding: 2px 4px;
     border: 0;
+  }
+
+  .optgroup {
+    .label {
+      &:extend(.mergeSelect .option);
+      font-weight: bold;
+    }
   }
 
   .option,

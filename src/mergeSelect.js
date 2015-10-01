@@ -28,9 +28,36 @@
         };
     }(0);
 
+    var labelTextFunction = function () {
+        var settings = this.settings;
+        var labelText = [];
+
+        this.$wrap.find('.option.selected').each(function (i, el) {
+            labelText.push($(el).find('.option-label').text());
+        });
+
+        if (labelText.length < 1) {
+            labelText = settings.placeholder;
+        }
+        else if (labelText.length > settings.numDisplayed) {
+            var overflowText = settings.overflowText;
+            if (typeof overflowText == 'function') {
+                overflowText = overflowText.apply(this, [labelText])
+            }
+            labelText = overflowText.replace('{n}', labelText.length);
+        }
+        else {
+            labelText = labelText.join(', ');
+        }
+        return labelText
+    };
+
     var defaults = {
         selects: null,
         placeholder: 'Select some options',
+        numDisplayed: 3,
+        overflowText: '{n} selected',
+        labelText: labelTextFunction,
     };
 
     /*
@@ -57,7 +84,8 @@
 
     mergeSelect.prototype = {
         create: function () {
-            var multiple = this.$el.is('[multiple]') ? ' multiple' : '';
+            // TODO добавить возможность объединения разных типов
+            var multiple = this.$selects.is('[multiple]') ? ' multiple' : '';
             this.$el.append('<div class="' + pluginName + '"></div>');
             var $container = this.$el.find('.' + pluginName);
 
@@ -105,6 +133,14 @@
             var $this = this;
             var choices = '';
             var $select = $element.closest('select');
+
+            if ($element.tagName == 'select' || $element.data('label')) {
+                // TODO formgroup
+                choices += '<div class="optgroup">';
+                choices += '<div class="optgroup-label">' + $element.data('label') + '</div>';
+                choices += '</div>';
+            }
+
             $element.children().each(function (i, el) {
                 var $el = $(el);
 
@@ -115,7 +151,7 @@
                     choices += '</div>';
                 }
                 else {
-                    var selected = $el.is('[selected]') ? ' selected' : '';
+                    var selected = $el.is(':selected') ? ' selected' : '';
                     choices += '<div class="option'
                         + selected + '" data-value="'
                         + $el.prop('value')
@@ -130,21 +166,7 @@
             return choices;
         },
         reloadDropdownLabel: function () {
-            var settings = this.settings;
-            var labelText = [];
-
-            this.$wrap.find('.option.selected').each(function (i, el) {
-                labelText.push($(el).find('.option-label').text());
-            });
-            if (labelText.length < 1) {
-                labelText = settings.placeholder;
-            }
-            else if (labelText.length > settings.numDisplayed) {
-                labelText = settings.overflowText.replace('{n}', labelText.length);
-            }
-            else {
-                labelText = labelText.join(', ');
-            }
+            var labelText = this.settings.labelText.apply(this);
             this.$wrap.find('.label').html(labelText);
 
             this.$selects.each(function (index, value) {
@@ -182,7 +204,7 @@
         'idx': -1
     };
     function setIndexes($wrap) {
-        $wrap.find('.option:not(.hidden)').each(function(i, el) {
+        $wrap.find('.option:not(.hidden)').each(function (i, el) {
             $(el).attr('data-index', i);
             $wrap.find('.option').removeClass('hl');
         });
@@ -217,27 +239,33 @@
         var _mergeSelect = $container.data(pluginName);
 
         var selected_map = {};
+        $.map(_mergeSelect.selects_map, function (value, key) {
+            selected_map[key] = null;
+        });
 
+
+        var hasMultiple = $wrap.hasClass('multiple');
         /* todo mixin multiple and simple select */
-
-        if ($wrap.hasClass('multiple')) {
-            $option.toggleClass('selected');
-            $wrap.find('.option.selected').each(function (i, el) {
-                var $el = $(el);
-                var selected = selected_map[$el.data('select-id')] || [];
-                selected.push($el.data('value'));
-                selected_map[$el.data('select-id')] = selected;
-            });
-        }
-        else {
+        if (!hasMultiple) {
             /* TODO remove from only select */
-            var selected = $option.data('value');
-            selected_map[$option.data('select-id')] = selected;
+            var select_id = $option.data('select-id');
 
-            $wrap.find('.option').removeClass('selected');
+            $wrap.find(".option[data-select-id='" + select_id + "']").removeClass('selected');
             $option.addClass('selected');
-            $wrap.find('.dropdown').hide();
+            $wrap.find('.dropdown').addClass('hidden');
         }
+
+        if (hasMultiple) {
+            $option.toggleClass('selected');
+        }
+
+        $wrap.find('.option.selected').each(function (i, el) {
+            var $el = $(el);
+            var selected = selected_map[$el.data('select-id')] || [];
+            selected.push($el.data('value'));
+            selected_map[$el.data('select-id')] = selected;
+        });
+
         $.map(selected_map, function (value, key) {
             var $select = _mergeSelect.selects_map[key];
             $select.val(value);
@@ -252,13 +280,13 @@
             return;
         }
 
-        var $wrap = $(this).closest('.fs-wrap');
+        var $wrap = $(this).closest('.wrap');
         var keywords = $(this).val();
 
-        $wrap.find('.option, .fs-optgroup-label').removeClass('hidden');
+        $wrap.find('.option, .optgroup-label').removeClass('hidden');
 
         if ('' != keywords) {
-            $wrap.find('.fs-option').each(function () {
+            $wrap.find('.option').each(function () {
                 var regex = new RegExp(keywords, 'gi');
                 if (null === $(this).find('.option-label').text().match(regex)) {
                     $(this).addClass('hidden');
@@ -266,7 +294,7 @@
             });
 
             $wrap.find('.optgroup-label').each(function () {
-                var num_visible = $(this).closest('.optgroup').find('.fs-option:not(.hidden)').length;
+                var num_visible = $(this).closest('.optgroup').find('.option:not(.hidden)').length;
                 if (num_visible < 1) {
                     $(this).addClass('hidden');
                 }

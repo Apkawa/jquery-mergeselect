@@ -1,1 +1,3 @@
-# mergeSelect
+# jquery-mergeselect
+
+

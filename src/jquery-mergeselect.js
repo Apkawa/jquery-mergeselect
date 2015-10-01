@@ -133,6 +133,7 @@
             var $this = this;
             var choices = '';
             var $select = $element.closest('select');
+            var has_multiple = $select.is('[multiple]');
 
             if ($element.tagName == 'select' || $element.data('label')) {
                 // TODO formgroup
@@ -152,12 +153,15 @@
                 }
                 else {
                     var selected = $el.is(':selected') ? ' selected' : '';
+                    var checked = selected ? 'checked="checked"' : '';
+                    var input_type = has_multiple ? 'checkbox' : 'radio';
+
                     choices += '<div class="option'
                         + selected + '" data-value="'
                         + $el.prop('value')
                         + '"'
                         + 'data-select-id="' + $select.prop('id')
-                        + '"><span class="checkbox"><i></i></span><div class="option-label">'
+                        + '"><div class="option-label"><input type="' + input_type + '"' + checked + '"/>'
                         + $el.html()
                         + '</div></div>';
                 }
@@ -250,13 +254,18 @@
             /* TODO remove from only select */
             var select_id = $option.data('select-id');
 
-            $wrap.find(".option[data-select-id='" + select_id + "']").removeClass('selected');
-            $option.addClass('selected');
+            $wrap.find(".option[data-select-id='" + select_id + "']")
+                .removeClass('selected')
+                .find('input').prop('checked', null)
+            ;
+
+            $option.addClass('selected').find('input').prop('checked', true);
             $wrap.find('.dropdown').addClass('hidden');
         }
 
         if (hasMultiple) {
             $option.toggleClass('selected');
+            $option.find('input').prop('checked', $option.hasClass('selected'));
         }
 
         $wrap.find('.option.selected').each(function (i, el) {

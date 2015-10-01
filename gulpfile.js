@@ -14,8 +14,14 @@ var _ = require('lodash'),
     csso = require('gulp-csso'),
     processhtml = require('gulp-processhtml'),
     preprocess = require('gulp-preprocess'),
-    open = require('gulp-open')
+    open = require('gulp-open'),
+    rimraf = require('gulp-rimraf'),
+    runSeq = require('run-sequence'),
+    environments = require('gulp-environments')
     ;
+
+var development = environments.development;
+var production = environments.production;
 
 var config = {
     source_dir: './src/',
@@ -40,20 +46,25 @@ config = _.extend(config, {
 
 });
 
+gulp.task('clean', function (callback) {
+    return gulp.src([config.dest_dir + '*'], {read: false})
+        .pipe(rimraf(callback));
+});
+
 gulp.task('image', function () {
-    gulp.src(config.images.src + '*')
+    return gulp.src(config.images.src + '*')
         .pipe(gulp.dest(config.images.dest))
 });
 
 gulp.task('js', function () {
-    gulp.src(config.js.src + '*.js')
+    return gulp.src(config.js.src + '*.js')
         .pipe(sourcemaps.init())
         .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest(config.js.dest))
 });
 
 gulp.task('less', function () {
-    gulp.src(config.style.src + '*.less')
+    return gulp.src(config.style.src + '*.less')
         .pipe(sourcemaps.init())
         .pipe(less())
         .pipe(cssBase64({
@@ -66,30 +77,45 @@ gulp.task('less', function () {
 
 });
 
-gulp.task('html', function () {
-    gulp.src(config.source_dir + '*.html')
-        .pipe(gulp.dest(config.dest_dir))
-
-});
-
-gulp.task('compress', ['default'], function () {
+gulp.task('compress_js', function () {
     gulp.src(config.js.dest + '*.js')
         .pipe(sourcemaps.init({loadMaps: true}))
         .pipe(uglify())
         .pipe(rename({suffix: '.min'}))
         .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest(config.js.dest));
+});
 
+gulp.task('compress_css', function () {
     gulp.src(config.style.dest + '*.css')
         .pipe(sourcemaps.init({loadMaps: true}))
         .pipe(csso())
         .pipe(rename({suffix: '.min'}))
         .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest(config.style.dest));
+});
 
+
+gulp.task('html', function () {
+    var suffix = ''
+    if (production()) {
+        suffix = '.min'
+    }
     gulp.src(config.source_dir + '*.html')
+        .pipe(preprocess({context: {SUFFIX: suffix}}))
         .pipe(processhtml())
         .pipe(gulp.dest(config.dest_dir))
+
+});
+
+gulp.task('compress', function (callback) {
+    environments.current(production);
+    runSeq('clean',
+        ['js', 'less', 'image'],
+        ['compress_js', 'compress_css'],
+        'html',
+        callback
+    );
 });
 
 
@@ -101,8 +127,6 @@ gulp.task('lint', function () {
 
 
 gulp.task('default', ['less', 'js', 'image', 'html']);
-
-
 
 
 gulp.task('runserver', function () {

@@ -1,0 +1,122 @@
+.mergeSelect .wrap {
+  position: relative;
+  display: inline-block;
+  width: 200px;
+  font-size: 12px;
+  line-height: 1;
+}
+.mergeSelect .wrap .option:hover {
+  background-color: #e6e6e6;
+}
+.mergeSelect .wrap .option {
+  position: relative;
+  padding-left: 30px;
+}
+.mergeSelect .wrap .checkbox {
+  position: absolute;
+  display: block;
+  width: 30px;
+  top: 0;
+  left: 0;
+  bottom: 0;
+}
+.mergeSelect .wrap .option.selected {
+  background-color: #337ab7;
+  color: #ffffff;
+}
+.mergeSelect .wrap .option.selected:hover {
+  background-color: #4f93ce;
+}
+.mergeSelect .wrap.custom_checkbox .option .checkbox i {
+  position: absolute;
+  margin: auto;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 14px;
+  height: 14px;
+  border: 1px solid #aeaeae;
+  border-radius: 2px;
+  background-color: #fff;
+}
+.mergeSelect .wrap.custom_checkbox .option.selected .checkbox i {
+  background-color: #11a911;
+  border-color: transparent;
+  background-image: url(../images/check.png);
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.mergeSelect .label-wrap {
+  position: relative;
+  border: 1px solid #ccc;
+  cursor: default;
+}
+.mergeSelect .label-wrap .label {
+  padding: 4px 22px 4px 8px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.mergeSelect .label-wrap,
+.mergeSelect .dropdown {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+.mergeSelect .arrow {
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid #000;
+  position: absolute;
+  top: 0;
+  right: 5px;
+  bottom: 0;
+  margin: auto;
+}
+.mergeSelect .dropdown {
+  position: absolute;
+  background-color: #FFF;
+  border: 1px solid #ccc;
+  margin-top: 5px;
+  width: 100%;
+  z-index: 1000;
+}
+.mergeSelect .dropdown .options {
+  max-height: 200px;
+  overflow: auto;
+}
+.mergeSelect .search input {
+  width: 100%;
+  padding: 2px 4px;
+  border: 0;
+}
+.mergeSelect .optgroup .label {
+  font-weight: bold;
+}
+.mergeSelect .option,
+.mergeSelect .search,
+.mergeSelect .optgroup-label,
+.mergeSelect .optgroup .label {
+  padding: 6px 8px;
+  border-bottom: 1px solid #eee;
+  cursor: default;
+}
+.mergeSelect .option,
+.mergeSelect .optgroup .label {
+  cursor: pointer;
+}
+.mergeSelect .option.hl {
+  background-color: #e6e6e6;
+}
+.mergeSelect .optgroup-label {
+  font-weight: bold;
+}
+.hidden {
+  display: none;
+}
+
+/*# sourceMappingURL=jquery-mergeselect.css.map */

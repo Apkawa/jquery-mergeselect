@@ -1,18 +1,18 @@
-.mergeSelect .wrap {
+.mergeSelect .ms-wrap {
   position: relative;
   display: inline-block;
   width: 200px;
   font-size: 12px;
   line-height: 1;
 }
-.mergeSelect .wrap .option:hover {
+.mergeSelect .ms-wrap .ms-option:hover {
   background-color: #e6e6e6;
 }
-.mergeSelect .wrap .option {
+.mergeSelect .ms-wrap .ms-option {
   position: relative;
   padding-left: 30px;
 }
-.mergeSelect .wrap .checkbox {
+.mergeSelect .ms-wrap .ms-checkbox {
   position: absolute;
   display: block;
   width: 30px;
@@ -20,14 +20,14 @@
   left: 0;
   bottom: 0;
 }
-.mergeSelect .wrap .option.selected {
+.mergeSelect .ms-wrap .ms-option.selected {
   background-color: #337ab7;
   color: #ffffff;
 }
-.mergeSelect .wrap .option.selected:hover {
+.mergeSelect .ms-wrap .ms-option.selected:hover {
   background-color: #4f93ce;
 }
-.mergeSelect .wrap.custom_checkbox .option .checkbox i {
+.mergeSelect .ms-wrap.ms-custom_checkbox .ms-option .ms-checkbox i {
   position: absolute;
   margin: auto;
   left: 0;
@@ -40,32 +40,32 @@
   border-radius: 2px;
   background-color: #fff;
 }
-.mergeSelect .wrap.custom_checkbox .option.selected .checkbox i {
+.mergeSelect .ms-wrap.ms-custom_checkbox .ms-option.ms-selected .ms-checkbox i {
   background-color: #11a911;
   border-color: transparent;
   background-image: url(../images/check.png);
   background-repeat: no-repeat;
   background-position: center;
 }
-.mergeSelect .label-wrap {
+.mergeSelect .ms-label-wrap {
   position: relative;
   border: 1px solid #ccc;
   cursor: default;
 }
-.mergeSelect .label-wrap .label {
+.mergeSelect .ms-label-wrap .ms-label {
   padding: 4px 22px 4px 8px;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
 }
-.mergeSelect .label-wrap,
-.mergeSelect .dropdown {
+.mergeSelect .ms-label-wrap,
+.mergeSelect .ms-dropdown {
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
 }
-.mergeSelect .arrow {
+.mergeSelect .ms-arrow {
   width: 0;
   height: 0;
   border-left: 6px solid transparent;
@@ -77,7 +77,7 @@
   bottom: 0;
   margin: auto;
 }
-.mergeSelect .dropdown {
+.mergeSelect .ms-dropdown {
   position: absolute;
   background-color: #FFF;
   border: 1px solid #ccc;
@@ -85,34 +85,32 @@
   width: 100%;
   z-index: 1000;
 }
-.mergeSelect .dropdown .options {
+.mergeSelect .ms-dropdown .ms-options {
   max-height: 200px;
   overflow: auto;
 }
-.mergeSelect .search input {
+.mergeSelect .ms-search input {
   width: 100%;
   padding: 2px 4px;
   border: 0;
 }
-.mergeSelect .optgroup .label {
+.mergeSelect .ms-optgroup .ms-label {
   font-weight: bold;
 }
-.mergeSelect .option,
-.mergeSelect .search,
-.mergeSelect .optgroup-label,
-.mergeSelect .optgroup .label {
+.mergeSelect .ms-option,
+.mergeSelect .ms-search,
+.mergeSelect .ms-optgroup-label {
   padding: 6px 8px;
   border-bottom: 1px solid #eee;
   cursor: default;
 }
-.mergeSelect .option,
-.mergeSelect .optgroup .label {
+.mergeSelect .ms-option {
   cursor: pointer;
 }
-.mergeSelect .option.hl {
+.mergeSelect .ms-option.ms-hl {
   background-color: #e6e6e6;
 }
-.mergeSelect .optgroup-label {
+.mergeSelect .ms-optgroup-label {
   font-weight: bold;
 }
 .hidden {

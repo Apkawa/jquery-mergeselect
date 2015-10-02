@@ -1,3 +1,4 @@
+@prefix: ms-;
 @color: #000;
 @bg-color: #FFF;
 @option-bg-hover: darken(@bg-color, 10%);
@@ -7,26 +8,26 @@
 
 
 .mergeSelect {
-  .wrap {
+  .@{prefix}wrap {
     position: relative;
     display: inline-block;
     width: 200px;
     font-size: 12px;
     line-height: 1;
 
-    .option:hover {
+    .@{prefix}option:hover {
       background-color: @option-bg-hover;
     }
   }
 
-  .wrap {
+  .@{prefix}wrap {
 
-    .option {
+    .@{prefix}option {
       position: relative;
       padding-left: 30px;
     }
 
-    .checkbox {
+    .@{prefix}checkbox {
       position: absolute;
       display: block;
       width: 30px;
@@ -34,7 +35,7 @@
       left: 0;
       bottom: 0;
     }
-    .option.selected {
+    .@{prefix}option.selected {
       &:hover {
         background-color: @option-selected-bg-hover;
       }
@@ -43,8 +44,8 @@
     }
 
   }
-  .wrap.custom_checkbox {
-    .option .checkbox i {
+  .@{prefix}wrap.@{prefix}custom_checkbox {
+    .@{prefix}option .@{prefix}checkbox i {
       position: absolute;
       margin: auto;
       left: 0;
@@ -58,7 +59,7 @@
       background-color: #fff;
     }
 
-    .option.selected .checkbox i {
+    .@{prefix}option.@{prefix}selected .@{prefix}checkbox i {
       background-color: rgb(17, 169, 17);
       border-color: transparent;
       background-image: url(../images/check.png);
@@ -67,12 +68,12 @@
     }
   }
 
-  .label-wrap {
+  .@{prefix}label-wrap {
     position: relative;
     border: 1px solid #ccc;
     cursor: default;
 
-    .label {
+    .@{prefix}label {
       padding: 4px 22px 4px 8px;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -81,11 +82,10 @@
     }
 
   }
-  .label-wrap, .dropdown {
-    // TODO autoprefixer
+  .@{prefix}label-wrap, .@{prefix}dropdown {
     user-select: none;
   }
-  .arrow {
+  .@{prefix}arrow {
     width: 0;
     height: 0;
     border-left: 6px solid transparent;
@@ -98,49 +98,50 @@
     margin: auto;
   }
 
-  .dropdown {
+  .@{prefix}dropdown {
     position: absolute;
     background-color: @bg-color;
     border: 1px solid #ccc;
     margin-top: 5px;
     width: 100%;
     z-index: 1000;
-    .options {
+
+    .@{prefix}options {
       max-height: 200px;
       overflow: auto;
     }
   }
 
-  .search input {
+  .@{prefix}search input {
     width: 100%;
     padding: 2px 4px;
     border: 0;
   }
 
-  .optgroup {
-    .label {
-      &:extend(.mergeSelect .option);
+  .@{prefix}optgroup {
+    .@{prefix}label {
+      &:extend(.mergeSelect .@{prefix}option);
       font-weight: bold;
     }
   }
 
-  .option,
-  .search,
-  .optgroup-label {
+  .@{prefix}option,
+  .@{prefix}search,
+  .@{prefix}optgroup-label {
     padding: 6px 8px;
     border-bottom: 1px solid #eee;
     cursor: default;
   }
 
-  .option {
+  .@{prefix}option {
     cursor: pointer;
   }
 
-  .option.hl {
+  .@{prefix}option.@{prefix}hl {
     background-color: @option-bg-hover;
   }
 
-  .optgroup-label {
+  .@{prefix}optgroup-label {
     font-weight: bold;
   }
 

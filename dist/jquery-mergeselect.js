@@ -22,6 +22,7 @@
     var pluginName = 'mergeSelect';
     var classPrefix = '.' + pluginName + ' ';
 
+
     var uid = function (i) {
         return function () {
             return pluginName + '-' + (++i);
@@ -32,8 +33,8 @@
         var settings = this.settings;
         var labelText = [];
 
-        this.$wrap.find('.option.selected').each(function (i, el) {
-            labelText.push($(el).find('.option-label').text());
+        this.$wrap.find('.ms-option.ms-selected').each(function (i, el) {
+            labelText.push($(el).find('.ms-option-label').text());
         });
 
         if (labelText.length < 1) {
@@ -57,7 +58,25 @@
         placeholder: 'Select some options',
         numDisplayed: 3,
         overflowText: '{n} selected',
-        labelText: labelTextFunction,
+        labelText: labelTextFunction
+    };
+
+    var classNameSuffix = '.ms-';
+
+    // TODO
+    var classNames = {
+        wrap: 'wrap',
+        option: 'option',
+        selected: 'selected',
+        label: 'label',
+        labelWrap: 'label-wrap',
+        optionLabel: 'option-label',
+        dropdown: 'dropdown',
+        hidden: 'hidden',
+        arrow: 'arrow',
+        optgroup: 'optgroup',
+        optgroupLabel: 'optgroup-label',
+        search: 'search'
     };
 
     /*
@@ -69,7 +88,7 @@
         this.settings = settings;
         this.selects = settings.selects;
         this.$selects = $(this.selects);
-        this.selects_map = {}
+        this.selects_map = {};
         var selects_map = this.selects_map;
 
         this.$selects.each(function (index, value) {
@@ -89,23 +108,23 @@
             this.$el.append('<div class="' + pluginName + '"></div>');
             var $container = this.$el.find('.' + pluginName);
 
-            $container.append('<div class="wrap' + multiple + '"></div>');
+            $container.append('<div class="ms-wrap' + multiple + '"></div>');
 
-            var $wrap = $container.find('.wrap');
+            var $wrap = $container.find('.ms-wrap');
 
             $wrap.append(
-                '<div class="label-wrap">'
-                + '<div class="label">'
+                '<div class="ms-label-wrap">'
+                + '<div class="ms-label">'
                 + this.settings.placeholder
                 + '</div>'
-                + '<span class="arrow"></span></div>'
+                + '<span class="ms-arrow"></span></div>'
             );
 
-            $wrap.append('<div class="dropdown hidden">'
-                + '<div class="options">'
+            $wrap.append('<div class="ms-dropdown hidden">'
+                + '<div class="ms-options">'
                 + '</div></div>');
 
-            $wrap.addClass('hidden');
+            //$wrap.addClass('hidden');
 
             this.$container = $container;
 
@@ -116,8 +135,8 @@
         reload: function () {
             var self = this;
             if (this.settings.showSearch) {
-                var search = '<div class="search"><input type="search" placeholder="' + this.settings.searchText + '" /></div>';
-                this.$wrap.find('.dropdown').prepend(search);
+                var search = '<div class="ms-search"><input type="search" placeholder="' + this.settings.searchText + '" /></div>';
+                this.$wrap.find('.ms-dropdown').prepend(search);
             }
 
             var choices = '';
@@ -125,7 +144,7 @@
                     choices += self.buildOptions($(value))
                 }
             ).get();
-            this.$wrap.find('.options').html(choices);
+            this.$wrap.find('.ms-options').html(choices);
             this.reloadDropdownLabel();
         },
 
@@ -137,8 +156,8 @@
 
             if ($element.tagName == 'select' || $element.data('label')) {
                 // TODO formgroup
-                choices += '<div class="optgroup">';
-                choices += '<div class="optgroup-label">' + $element.data('label') + '</div>';
+                choices += '<div class="ms-optgroup">';
+                choices += '<div class="ms-optgroup-label">' + $element.data('label') + '</div>';
                 choices += '</div>';
             }
 
@@ -146,8 +165,8 @@
                 var $el = $(el);
 
                 if ('optgroup' == $el.prop('nodeName').toLowerCase()) {
-                    choices += '<div class="optgroup">';
-                    choices += '<div class="optgroup-label">' + $el.prop('label') + '</div>';
+                    choices += '<div class="ms-optgroup">';
+                    choices += '<div class="ms-optgroup-label">' + $el.prop('label') + '</div>';
                     choices += $this.buildOptions($el);
                     choices += '</div>';
                 }
@@ -156,12 +175,12 @@
                     var checked = selected ? 'checked="checked"' : '';
                     var input_type = has_multiple ? 'checkbox' : 'radio';
 
-                    choices += '<div class="option'
+                    choices += '<div class="ms-option'
                         + selected + '" data-value="'
                         + $el.prop('value')
                         + '"'
                         + 'data-select-id="' + $select.prop('id')
-                        + '"><div class="option-label"><input type="' + input_type + '"' + checked + '"/>'
+                        + '"><div class="ms-option-label"><input type="' + input_type + '"' + checked + '"/>'
                         + $el.html()
                         + '</div></div>';
                 }
@@ -171,7 +190,7 @@
         },
         reloadDropdownLabel: function () {
             var labelText = this.settings.labelText.apply(this);
-            this.$wrap.find('.label').html(labelText);
+            this.$wrap.find('.ms-label').html(labelText);
 
             this.$selects.each(function (index, value) {
                 $(value).change()
@@ -208,36 +227,37 @@
         'idx': -1
     };
     function setIndexes($wrap) {
-        $wrap.find('.option:not(.hidden)').each(function (i, el) {
+        $wrap.find('.ms-option:not(.hidden)').each(function (i, el) {
             $(el).attr('data-index', i);
-            $wrap.find('.option').removeClass('hl');
+            $wrap.find('.ms-option').removeClass('ms-hl');
         });
-        $wrap.find('.search input').focus();
+        $wrap.find('.ms-search input').focus();
         window[pluginName].idx = -1;
     }
 
     function setScroll($wrap) {
-        var $container = $wrap.find('.options');
-        var $selected = $wrap.find('.option.hl');
+        var $container = $wrap.find('.ms-options');
+        var $selected = $wrap.find('.ms-option.ms-hl');
 
         var itemMin = $selected.offset().top + $container.scrollTop();
         var itemMax = itemMin + $selected.outerHeight();
         var containerMin = $container.offset().top + $container.scrollTop();
         var containerMax = containerMin + $container.outerHeight();
 
+        var to = null;
         if (itemMax > containerMax) { // scroll down
-            var to = $container.scrollTop() + itemMax - containerMax;
+            to = $container.scrollTop() + itemMax - containerMax;
             $container.scrollTop(to);
         }
         else if (itemMin < containerMin) { // scroll up
-            var to = $container.scrollTop() - containerMin - itemMin;
+            to = $container.scrollTop() - containerMin - itemMin;
             $container.scrollTop(to);
         }
     }
 
-    $(document).on('click', classPrefix + '.option', function () {
+    $(document).on('click', classPrefix + '.ms-option', function () {
         var $option = $(this);
-        var $wrap = $option.closest('.wrap');
+        var $wrap = $option.closest('.ms-wrap');
 
         var $container = $wrap.closest(classPrefix);
         var _mergeSelect = $container.data(pluginName);
@@ -255,20 +275,20 @@
             var select_id = $option.data('select-id');
 
             $wrap.find(".option[data-select-id='" + select_id + "']")
-                .removeClass('selected')
+                .removeClass('ms-selected')
                 .find('input').prop('checked', null)
             ;
 
-            $option.addClass('selected').find('input').prop('checked', true);
-            $wrap.find('.dropdown').addClass('hidden');
+            $option.addClass('ms-selected').find('input').prop('checked', true);
+            $wrap.find('.ms-dropdown').addClass('hidden');
         }
 
         if (hasMultiple) {
-            $option.toggleClass('selected');
-            $option.find('input').prop('checked', $option.hasClass('selected'));
+            $option.toggleClass('ms-selected');
+            $option.find('input').prop('checked', $option.hasClass('ms-selected'));
         }
 
-        $wrap.find('.option.selected').each(function (i, el) {
+        $wrap.find('.ms-option.selected').each(function (i, el) {
             var $el = $(el);
             var selected = selected_map[$el.data('select-id')] || [];
             selected.push($el.data('value'));
@@ -283,27 +303,27 @@
     });
 
 
-    $(document).on('keyup', classPrefix + '.search input', function (e) {
+    $(document).on('keyup', classPrefix + '.ms-search input', function (e) {
         if (40 == e.which) {
             $(this).blur();
             return;
         }
 
-        var $wrap = $(this).closest('.wrap');
+        var $wrap = $(this).closest('.ms-wrap');
         var keywords = $(this).val();
 
-        $wrap.find('.option, .optgroup-label').removeClass('hidden');
+        $wrap.find('.ms-option, .ms-optgroup-label').removeClass('hidden');
 
         if ('' != keywords) {
-            $wrap.find('.option').each(function () {
+            $wrap.find('.ms-option').each(function () {
                 var regex = new RegExp(keywords, 'gi');
-                if (null === $(this).find('.option-label').text().match(regex)) {
+                if (null === $(this).find('.ms-option-label').text().match(regex)) {
                     $(this).addClass('hidden');
                 }
             });
 
-            $wrap.find('.optgroup-label').each(function () {
-                var num_visible = $(this).closest('.optgroup').find('.option:not(.hidden)').length;
+            $wrap.find('.ms-optgroup-label').each(function () {
+                var num_visible = $(this).closest('.ms-optgroup').find('.option:not(.hidden)').length;
                 if (num_visible < 1) {
                     $(this).addClass('hidden');
                 }
@@ -315,26 +335,26 @@
 
     $(document).on('click', function (e) {
         var $el = $(e.target);
-        var $wrap = $el.closest('.wrap');
+        var $wrap = $el.closest('.ms-wrap');
 
         if (0 < $wrap.length) {
-            if ($el.hasClass('label')) {
+            if ($el.hasClass('ms-label')) {
                 window[pluginName].active = $wrap;
-                var is_hidden = $wrap.find('.dropdown').hasClass('hidden');
-                $('.dropdown').addClass('hidden');
+                var is_hidden = $wrap.find('.ms-dropdown').hasClass('hidden');
+                $('.ms-dropdown').addClass('hidden');
 
                 if (is_hidden) {
-                    $wrap.find('.dropdown').removeClass('hidden');
+                    $wrap.find('.ms-dropdown').removeClass('hidden');
                 }
                 else {
-                    $wrap.find('.dropdown').addClass('hidden');
+                    $wrap.find('.ms-dropdown').addClass('hidden');
                 }
 
                 setIndexes($wrap);
             }
         }
         else {
-            $('.dropdown').addClass('hidden');
+            $('.ms-dropdown').addClass('hidden');
             window[pluginName].active = null;
         }
     });
@@ -343,38 +363,38 @@
         var $wrap = window[pluginName].active;
 
         if (null === $wrap) {
-            return;
+            return null;
         }
         else if (38 == e.which) { // up
             e.preventDefault();
 
-            $wrap.find('.option').removeClass('hl');
+            $wrap.find('.ms-option').removeClass('hl');
 
             if (window[pluginName].idx > 0) {
                 window[pluginName].idx--;
-                $wrap.find('.option[data-index=' + window[pluginName].idx + ']').addClass('hl');
+                $wrap.find('.ms-option[data-index=' + window[pluginName].idx + ']').addClass('hl');
                 setScroll($wrap);
             }
             else {
                 window[pluginName].idx = -1;
-                $wrap.find('.search input').focus();
+                $wrap.find('.ms-search input').focus();
             }
         }
         else if (40 == e.which) { // down
             e.preventDefault();
-            var last_index = $wrap.find('.option:last').attr('data-index');
+            var last_index = $wrap.find('.ms-option:last').attr('data-index');
             if (window[pluginName].idx < parseInt(last_index)) {
                 window[pluginName].idx++;
-                $wrap.find('.option').removeClass('hl');
-                $wrap.find('.option[data-index=' + window[pluginName].idx + ']').addClass('hl');
+                $wrap.find('.ms-option').removeClass('ms-hl');
+                $wrap.find('.ms-option[data-index=' + window[pluginName].idx + ']').addClass('hl');
                 setScroll($wrap);
             }
         }
         else if (32 == e.which || 13 == e.which) { // space, enter
-            $wrap.find('.option.hl').click();
+            $wrap.find('.ms-option.ms-hl').click();
         }
         else if (27 == e.which) { // esc
-            $('.dropdown').addClass('hidden');
+            $('.ms-dropdown').addClass('ms-hidden');
             window[pluginName].active = null;
         }
     });
